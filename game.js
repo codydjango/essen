@@ -1,6 +1,11 @@
 import ITEMS from './items.js';
 
 
+function updateTimer(time) {
+    document.getElementById('timer').innerHTML = time
+}
+
+
 function getImage(url, keyword) {
     fetch(url)
     .then((response) => {
@@ -82,32 +87,102 @@ class Discover {
     }
 }
 
+
+const TIMERS = {}
+
+class Timer {
+    constructor(time) {
+        this.total = time;
+        this.remaining = time;
+        this.elapsed = 0;
+        this.handlers = {};
+        this.timers = {};
+        this.id = Math.random();
+        this.baseInterval = 1000;
+
+        // this.timers[this.discover.location.getId()] = setTimeout(callback, time)
+    }
+
+    start() {
+        alert('timer started')
+        const onInterval = this.handlers.onInterval.bind(this)
+        const onEnd = this.handlers.onEnd.bind(this)
+
+        this.register()
+
+        this.timers.interval = setInterval(() => {
+            this.elapsed += this.baseInterval
+            this.remaining = this.total - this.elapsed
+            onInterval(this.remaining, this)
+        }, this.baseInterval)
+
+
+        this.timers.end = setTimeout(() => {
+            clearInterval(this.timers.interval)
+            this.deregister()
+            onEnd(this)
+        }, this.total)
+    }
+
+    register() {
+        TIMERS[this.id] = this;
+    }
+
+    deregister() {
+        delete TIMERS[this.id];
+    }
+
+    onInterval(callback) {
+        this.handlers.onInterval = callback;
+        return this;
+    }
+
+    onEnd(callback) {
+        this.handlers.onEnd = callback;
+        return this;
+    }
+}
+
+
 class ActionManager {
     constructor({stats, discover}) {
         this.stats = stats;
         this.discover = discover;
+        this.timers = {}
+        this.actions = [
+            ['wander', this.wander.bind(this)],
+            ['look', this.look.bind(this)],
+            ['forage', this.forage.bind(this)],
+        ]
+    }
+
+    getActionsMenu() {
+        const actions = this.actions.map((val, index) => {
+            const [keyName, keyAction] = val;
+            return [index+1,  keyName]
+        })
+
+        return actions;
+    }
+
+    getActions() {
+        const actions = {}
+
+        this.actions.forEach((val, index) => {
+            const [keyName, keyAction] = val;
+            actions[index+1] = keyAction
+        })
+
+        return actions;
     }
 
     handle(input) {
-
-        const dct = {
-            1: 'wander',
-            2: 'look',
-            3: 'smell'
-        }
-
-        const cmd = dct[input]
-
-        switch (cmd) {
-            case 'wander':
-                this.wander();
-                break;
-            case 'look':
-                this.look();
-                break;
-            case 'smell':
-                this.smell();
-                break;
+        const actions = this.getActions()
+        const command = actions[input]
+        if (command) {
+            command()
+        } else {
+            alert(`invalid command: ${input}`)
         }
     }
 
@@ -118,14 +193,32 @@ class ActionManager {
 
     look() {
         const tag = this.discover.activeContext.name
+        const type = this.discover.activeContext.type
         const url = getGiphyUrl(tag)
 
-        getImage(url, tag);
+        // getImage(url, tag);
 
-        alert(`found ${tag}`)
+        alert(`you can see ${type} here.`)
     }
 
-    smell() {
+    createTimer(time, callback) {
+        const timer = new Timer(time)
+
+        timer.onInterval(updateTimer)
+        timer.onEnd(callback)
+        timer.start()
+    }
+
+    forage() {
+        const timeToForage = 10000;
+        console.log('forage action', timeToForage)
+        this.createTimer(timeToForage, ()=> {
+            console.log('timer done')
+            const tag = this.discover.activeContext.name
+            const url = getGiphyUrl(tag)
+            getImage(url, tag);
+            alert(`you found ${tag}.`)
+        })
     }
 }
 
@@ -133,6 +226,10 @@ class Location {
     constructor() {
         this.x = 0;
         this.y = 0;
+    }
+
+    getId() {
+        return `${this.y}-${this.x}`
     }
 }
 
@@ -146,17 +243,14 @@ class App {
         this.stats = new Stats()
         this.discover = new Discover()
 
-        this.actions = new ActionManager({
+        this.actionManager = new ActionManager({
             stats: this.stats,
             discover: this.discover
         })
     }
 
     updateMenu() {
-        this.state.menu = [
-            [1, 'wander'],
-            [2, 'look'],
-            [3, 'smell']]
+        this.state.menu = this.actionManager.getActionsMenu()
     }
 
     start() {
@@ -173,7 +267,10 @@ class App {
     }
 
     processInput(input) {
-        this.actions.handle(input)
+        console.log('processInput', input)
+        if (input) {
+            this.actionManager.handle(input)
+        }
     }
 
     waitForInput() {
@@ -190,6 +287,7 @@ class App {
 
     renderMenu() {
         // render menu into div#menu
+        console.log('render', this.state.menu)
         document.getElementById('menu').innerHTML = this.state.menu.map(item => `<li data-id="${item[0]}">${item[1]}</li>`).join('');
     }
 }
