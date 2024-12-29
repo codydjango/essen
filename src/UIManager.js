@@ -7,7 +7,11 @@ class UIManager {
         this.input = document.getElementById('input')
         this.actions = document.getElementById('menu')
 
-        Bus.on('actionsUpdated', this.updateActions)
+        Bus.on('actionsUpdated', this.updateActions.bind(this))
+    }
+
+    clearImages() {
+        this.imageContainer.innerHTML = '';
     }
 
     showImages() {
@@ -37,6 +41,7 @@ class UIManager {
 
     updateActions(menu) {
         document.getElementById('menu').innerHTML = menu.map(item => `<li data-id="${item[0]}">${item[1]}</li>`).join('')
+        this.clearImages()
     }
 
     showActions() {

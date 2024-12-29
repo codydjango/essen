@@ -1,0 +1,111 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+/*html, body, div, span, applet, object, iframe,*/
+/*h1, h2, h3, h4, h5, h6, p, blockquote, pre,*/
+/*a, abbr, acronym, address, big, cite, code,*/
+/*del, dfn, em, img, ins, kbd, q, s, samp,*/
+/*small, strike, strong, sub, sup, tt, var,*/
+/*b, u, i, center,*/
+/*dl, dt, dd, ol, ul, li,*/
+/*fieldset, form, label, legend,*/
+/*table, caption, tbody, tfoot, thead, tr, th, td,*/
+/*article, aside, canvas, details, embed,*/
+/*figure, figcaption, footer, header, hgroup,*/
+/*menu, nav, output, ruby, section, summary,*/
+/*time, mark, audio, video {*/
+/*	margin: 0;*/
+/*	padding: 0;*/
+/*	border: 0;*/
+/*	font-size: 100%;*/
+/*	font: inherit;*/
+/*	vertical-align: baseline;*/
+/*}*/
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    /*background-color: antiquewhite; !* Dark background for contrast *!*/
+    color: black; /* White text for readability */
+    /*display: flex;*/
+    justify-content: center;
+    align-items: center;
+    /*height: 100vh;*/
+
+	font-family: "Courier Prime", serif;
+  	font-weight: 400;
+  	font-style: normal;
+}
+
+/* Main container for the game */
+#game {
+    padding: 20px; /* Basic padding around the container */
+	margin: 20px;
+    max-width: 800px;
+    width: 100%; /* Makes it responsive */
+    background-color: whitesmoke; /* Slightly lighter than the body background */
+    /*border-radius: 10px; !* Rounded corners for a modern look *!*/
+    /*box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5); !* Soft shadow for depth *!*/
+}
+
+input {
+	font-family: "Courier Prime", serif;
+  	font-weight: 400;
+  	font-style: normal;
+	border: black;
+	border-style: solid;
+	border-width: 1px;
+	padding: 5px;
+	margin: 5px;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+	margin: 20px 0 0 0;
+}
+
+.courier-prime-regular {
+  font-family: "Courier Prime", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.courier-prime-bold {
+  font-family: "Courier Prime", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.courier-prime-regular-italic {
+  font-family: "Courier Prime", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.courier-prime-bold-italic {
+  font-family: "Courier Prime", serif;
+  font-weight: 700;
+  font-style: italic;
+}

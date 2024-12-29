@@ -73,7 +73,7 @@ export default class ActionManager {
 
     wander() {
         this.discover.step();
-        alert(`wandered into the ${this.discover.terrain}`)
+        alert(`wandered further into the ${this.discover.terrain}`)
     }
 
     look() {
