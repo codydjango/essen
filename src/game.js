@@ -1,25 +1,17 @@
 import ActionManager from "./ActionManager.js";
-import {Stats} from "./Stats.js";
 import {Discover} from "./Discover.js";
 
 
 class App {
     constructor() {
-        this.state = {
-            menu: []
-        }
-
-        this.stats = new Stats()
         this.discover = new Discover()
 
         this.actionManager = new ActionManager({
-            stats: this.stats,
             discover: this.discover
         })
     }
 
     start() {
-        console.log('Game started!')
         this.updateMenu()
         this.waitForInput()
     }

@@ -2,64 +2,79 @@ import Bus from './Bus.js';
 
 class UIManager {
     constructor() {
-        this.imageContainer = document.getElementById('images')
-        this.timers = document.getElementById('timers')
-        this.input = document.getElementById('input')
-        this.actions = document.getElementById('menu')
+        this.ui = {}
+        this.ui.imageContainer = document.getElementById('images')
+        this.ui.timers = document.getElementById('timers')
+        this.ui.input = document.getElementById('input')
+        this.ui.actions = document.getElementById('menu')
+        this.ui.readout = document.getElementById('readout')
 
         Bus.on('actionsUpdated', this.updateActions.bind(this))
+        Bus.on('readout', this.updateReadout.bind(this))
+
     }
 
     clearImages() {
-        this.imageContainer.innerHTML = '';
+        this.ui.imageContainer.innerHTML = '';
+    }
+
+    readout(message) {
+        console.log({message})
+        Bus.emit('readout', message)
     }
 
     showImages() {
-        this.imageContainer.style.display = 'block'
+        this.ui.imageContainer.style.display = 'block'
     }
 
     hideImages() {
-        this.imageContainer.style.display = 'none'
+        this.ui.imageContainer.style.display = 'none'
     }
 
     displayImage(imageUrl) {
-        this.imageContainer.innerHTML = ''
+        this.ui.imageContainer.innerHTML = ''
 
         const imgElement = document.createElement('img')
 
         imgElement.src = imageUrl
         imgElement.style.maxWidth = '100%'
 
-        this.imageContainer.appendChild(imgElement)
+        this.ui.imageContainer.appendChild(imgElement)
 
         this.showImages()
     }
 
     hideActions() {
-        this.actions.style.display = 'none'
+        this.ui.actions.style.display = 'none'
     }
 
     updateActions(menu) {
-        document.getElementById('menu').innerHTML = menu.map(item => `<li data-id="${item[0]}">${item[1]}</li>`).join('')
+        this.ui.actions.innerHTML = menu.map(item => `<li data-id="${item[0]}">${item[1]}</li>`).join('')
         this.clearImages()
     }
 
+    updateReadout(message) {
+        const el = document.createElement('li')
+        el.innerText = message
+        this.ui.readout.appendChild(el)
+    }
+
     showActions() {
-        this.actions.style.display = 'block'
+        this.ui.actions.style.display = 'block'
         this.focusInput()
     }
 
     hideInput() {
-        this.input.style.display = 'none'
+        this.ui.input.style.display = 'none'
     }
 
     showInput() {
-        this.input.style.display = 'block'
+        this.ui.input.style.display = 'block'
         this.focusInput()
     }
 
     focusInput() {
-        this.input.focus()
+        this.ui.input.focus()
     }
 }
 

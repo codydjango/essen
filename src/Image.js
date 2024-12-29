@@ -10,14 +10,17 @@ export function getImage(keyword, callback) {
     fetch(url)
         .then((response) => {
             if (!response.ok) {
+                console.log('error response')
                 throw new Error('Failed to fetch the GIF');
             }
             return response.json(); // Parse the JSON response
         })
         .then((data) => {
+            console.log('image data', data);
             callback(data.data.images.original.url)
         })
         .catch((error) => {
           console.error('Error fetching GIF:', error);
+          callback(null)
         });
 }
