@@ -18,20 +18,10 @@ class App {
         })
     }
 
-    updateMenu() {
-        this.state.menu = this.actionManager.getActionsMenu()
-    }
-
     start() {
         console.log('Game started!')
         this.updateMenu()
-        this.renderMenu()
-        this.focusInput()
         this.waitForInput()
-    }
-
-    focusInput() {
-        document.getElementById('input').focus()
     }
 
     processInput(input) {
@@ -51,9 +41,9 @@ class App {
         document.getElementById('input').addEventListener('keyup', onInput);
     }
 
-    renderMenu() {
-        // render menu into div#menu
-        document.getElementById('menu').innerHTML = this.state.menu.map(item => `<li data-id="${item[0]}">${item[1]}</li>`).join('');
+    updateMenu() {
+        UIManager.updateActions(this.actionManager.getActionsMenu());
+        UIManager.showActions();
     }
 }
 
