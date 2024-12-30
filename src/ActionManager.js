@@ -126,8 +126,8 @@ export default class ActionManager {
         const {name, category, health} = item;
         const quality = item.getRandomQuality()
 
-        StatsManager.health += health;
-        UIManager.readout(`you ate the ${quality} ${name} ${category} and gained ${health} health.`)
+        StatsManager.consume(item)
+        UIManager.readout(`you ate the ${quality} ${name} ${category}.`)
     }
 
     bag() {

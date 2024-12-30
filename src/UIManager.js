@@ -8,10 +8,36 @@ class UIManager {
         this.ui.input = document.getElementById('input')
         this.ui.actions = document.getElementById('menu')
         this.ui.readout = document.getElementById('readout')
+        this.ui.bag = document.getElementById('bag')
+        this.ui.stats = document.getElementById('stats')
 
         Bus.on('actionsUpdated', this.updateActions.bind(this))
         Bus.on('readout', this.updateReadout.bind(this))
+        Bus.on('bag-updated', this.updateBag.bind(this))
+        Bus.on('stats-updated', this.updateStats.bind(this))
+    }
 
+    updateStats(stats) {
+        this.ui.stats.innerHTML = `steps: ${stats.steps} | vitality: ${stats.vitality} | satiety: ${stats.satiety} | toxins: ${stats.toxins}`
+        this.ui.stats.style.display = 'block'
+    }
+
+    updateBag(bagArray) {
+        const items = bagArray.map(item => item.name)
+        const dct = {}
+
+        items.forEach(item => {
+            if (dct[item]) {
+                dct[item] += 1
+            } else {
+                dct[item] = 1
+            }
+        })
+
+        const itemsArray = Object.keys(dct).map(key => `${dct[key]}x ${key}`)
+
+        this.ui.bag.innerHTML = 'bag: ' + itemsArray.join(', ')
+        this.ui.bag.style.display = 'block'
     }
 
     clearImages() {

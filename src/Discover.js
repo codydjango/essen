@@ -1,28 +1,8 @@
-import ITEMS from "./items.js"
-import {categoryPlural} from "./items.js"
 import {Location} from "./Location.js"
 import Bus from "./Bus.js"
 import UIManager from "./UIManager.js";
-
-class Item {
-    constructor(data) {
-        Object.assign(this, data);
-    }
-
-    static loadCollection() {
-        return ITEMS.map(item => new Item(item))
-    }
-
-    getPluralName() {
-        const {category} = this;
-        return categoryPlural[category]
-    }
-
-    getRandomQuality() {
-        const {qualities} = this;
-        return qualities[Math.floor(Math.random() * qualities.length)];
-    }
-}
+import {Item} from "./Item.js";
+import StatsManager from "./StatsManager.js";
 
 const items = Item.loadCollection()
 
@@ -67,6 +47,7 @@ export class Discover {
             this.location.y -= 1;
         }
 
+        StatsManager.addStep()
         this.updatePosition()
     }
 
