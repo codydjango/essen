@@ -59,7 +59,7 @@ body {
 
 /* Main container for the game */
 #game {
-	padding: 20px;
+	padding: 10px 20px 20px 20px;
     position: relative;
     background-color: whitesmoke; /* Slightly lighter than the body background */
     /*border-radius: 10px; !* Rounded corners for a modern look *!*/
@@ -111,4 +111,25 @@ ul#readout {
     list-style-type: none;
     padding: 0;
     margin: 0;
+}
+
+.fading {
+    max-height: 100px; /* Set the maximum height */
+    overflow-y: auto;
+    /* Hide scrollbar */
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer/Edge */
+    position: relative;
+    scroll-behavior: smooth;
+
+    /* Apply a masking gradient */
+    -webkit-mask-image: linear-gradient(to top, rgba(255, 255, 255, 1) 70%, rgba(255, 255, 255, 0));
+    mask-image: linear-gradient(to top, rgba(255, 255, 255, 1) 70%, rgba(255, 255, 255, 0));
+
+    -webkit-mask-composite: destination-in; /* Webkit-specific compositing */
+    mask-composite: exclude; /* Standard compositing: Preserve whitesmoke */
+}
+
+.fading::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for WebKit browsers */
 }

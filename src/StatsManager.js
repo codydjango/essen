@@ -1,3 +1,5 @@
+import Bus from "./Bus.js";
+
 class StatsManager {
     constructor() {
         this.steps = 0;
@@ -9,6 +11,7 @@ class StatsManager {
 
     addToBag(item) {
         this.bag.push(item)
+        Bus.emit('item-added-to-bag')
     }
 }
 

@@ -57,6 +57,7 @@ class UIManager {
         const el = document.createElement('li')
         el.innerText = message
         this.ui.readout.appendChild(el)
+        this.ui.readout.scrollTop = this.ui.readout.scrollHeight;
     }
 
     showActions() {
