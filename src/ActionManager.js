@@ -135,13 +135,13 @@ export default class ActionManager {
         const item = this.discover.activeContext
 
         StatsManager.addToBag(item);
-        UIManager.readout(`you put the ${item.getRandomQuality()} ${item.name} in your backpack.`)
+        UIManager.readout(`you put the ${item.getRandomQuality()} ${item.name} in your bag.`)
     }
 
     discard() {
         this.popActionContext()
         const item = this.discover.activeContext
 
-        UIManager.readout(`you throw the ${item.getRandomQuality()} ${item.name} away.`)
+        UIManager.readout(`you threw away the ${item.getRandomQuality()} ${item.name}.`)
     }
 }
