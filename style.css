@@ -111,10 +111,7 @@ ul#readout {
     list-style-type: none;
     padding: 0;
     margin: 0;
-}
-
-.fading {
-    max-height: 100px; /* Set the maximum height */
+    max-height: 30px; /* Set the maximum height */
     overflow-y: auto;
     /* Hide scrollbar */
     scrollbar-width: none; /* For Firefox */
@@ -130,6 +127,6 @@ ul#readout {
     mask-composite: exclude; /* Standard compositing: Preserve whitesmoke */
 }
 
-.fading::-webkit-scrollbar {
+ul#readout::-webkit-scrollbar {
     display: none; /* Hide scrollbar for WebKit browsers */
 }
