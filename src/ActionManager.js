@@ -87,23 +87,34 @@ export default class ActionManager {
     }
 
     wander() {
-        this.discover.step();
-        UIManager.readout(`wandered further into the ${this.discover.terrain}.`)
+        const site = this.discover.step();
+        UIManager.readout(`wandered further into the ${site.terrain}.`)
     }
 
     look() {
-        const categoryPlural = this.discover.activeContext.getPluralName()
-        UIManager.readout(`you see ${categoryPlural}.`)
+        this.discover.site.look();
+
+        if (this.discover.site.getLoot()) {
+            const categoryPlural = this.discover.site.getLoot().getPluralName()
+            UIManager.readout(`you see ${categoryPlural}.`)
+        } else {
+            UIManager.readout(`you don't see anything... at all.`)
+        }
     }
 
     forage() {
         const timeToForage = 3000;
 
+        const loot = this.discover.site.getLoot()
+
+        if (!loot) return UIManager.readout(`nothing to forage!`)
+
         UIManager.hideActions();
         UIManager.hideInput();
 
-        createTimer(`foraging for ${this.discover.activeContext.getPluralName()}`, timeToForage, () => {
-            const tag = this.discover.activeContext.name
+        createTimer(`foraging for ${loot.getPluralName()}`, timeToForage, () => {
+            this.discover.foraged = this.discover.site.popLoot();
+            const tag = this.discover.foraged.name
 
             getImage(tag, (image) => {
                 if (!image) {} else {
@@ -122,26 +133,29 @@ export default class ActionManager {
     eat() {
         this.popActionContext();
 
-        const item = this.discover.activeContext
-        const {name, category, health} = item;
-        const quality = item.getRandomQuality()
+        const loot   = this.discover.foraged
+        const {name, category} = loot;
+        const quality = loot.getRandomQuality()
 
-        StatsManager.consume(item)
+        StatsManager.consume(loot)
         UIManager.readout(`you ate the ${quality} ${name} ${category}.`)
+        this.discover.foraged = null;
     }
 
     bag() {
         this.popActionContext()
-        const item = this.discover.activeContext
+        const loot   = this.discover.foraged
 
-        StatsManager.addToBag(item);
-        UIManager.readout(`you put the ${item.getRandomQuality()} ${item.name} in your bag.`)
+        StatsManager.addToBag(loot);
+        UIManager.readout(`you put the ${loot.getRandomQuality()} ${loot.name} in your bag.`)
+        this.discover.foraged = null;
     }
 
     discard() {
         this.popActionContext()
-        const item = this.discover.activeContext
+        const loot   = this.discover.foraged
 
-        UIManager.readout(`you threw away the ${item.getRandomQuality()} ${item.name}.`)
+        UIManager.readout(`you threw away the ${loot.getRandomQuality()} ${loot.name}.`)
+        this.discover.foraged = null;
     }
 }
