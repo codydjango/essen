@@ -1,5 +1,7 @@
+import PASSWORDS from "./passwords.js";
+
 function getGiphyUrl(keyword) {
-    const YOUR_API_KEY = 'G4NnYrdSDoN5P03vwNyEinIn9AqUtOqE';
+    const YOUR_API_KEY = PASSWORDS.giphy;
 
     return `https://api.giphy.com/v1/gifs/random?api_key=${YOUR_API_KEY}&tag=${keyword};`
 }
