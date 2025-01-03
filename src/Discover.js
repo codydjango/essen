@@ -26,7 +26,7 @@ export class Discover {
         this.location.Y = Math.random() * 1000
         this.updatePosition()
 
-        UIManager.readout(`you are in a ${this.terrain}.`)
+        UIManager.readout(`you are in a ${this.site.terrain}.`)
     }
 
     step() {

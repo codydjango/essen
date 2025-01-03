@@ -18,4 +18,15 @@ export class Item {
         const {qualities} = this;
         return qualities[Math.floor(Math.random() * qualities.length)];
     }
+
+    getSearchName() {
+        const {name, category} = this;
+        if (name.toLowerCase().includes(category.toLowerCase())) return name
+
+        if (category === 'berry') {
+            return `${name} plant`
+        } else {
+            return `${name} ${category}`
+        }
+    }
 }

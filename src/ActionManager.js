@@ -115,8 +115,9 @@ export default class ActionManager {
         createTimer(`foraging for ${loot.getPluralName()}`, timeToForage, () => {
             this.discover.foraged = this.discover.site.popLoot();
             const tag = this.discover.foraged.name
+            const searchName = this.discover.foraged.getSearchName()
 
-            getImage(tag, (image) => {
+            getImage(searchName, (image) => {
                 if (!image) {} else {
                     UIManager.displayImage(image)
                 }
